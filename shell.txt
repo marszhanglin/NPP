@@ -1,0 +1,24 @@
+go mod init NPP
+go env -w GOPROXY=https://goproxy.cn   下包地址被墙  需要用这个 
+go mod tidy  自动下载依赖包到gopath
+
+
+//打包windows
+set GOOS=windows
+set GOARCH=amd64
+go build main.go
+
+
+//打包linux
+set GOOS=linux
+set GOARCH=amd64
+go build main.go
+
+
+//打包arm架构
+set GOOS=linux
+set GOARCH=arm64
+go build main.go
+
+
+

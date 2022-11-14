@@ -1,0 +1,25 @@
+package model
+
+import (
+	"time"
+)
+
+func QueryIso8583ByAppId(appId string) (isExit bool, err error, terminal []TAppConfig) {
+	tAppConfig := []TAppConfig{}
+	queryErr := dao.Db.Table("t_app_config").Select(" * ").Where(" app_id = ? , config_step_key='iso8583' ", appId).Find(&tAppConfig).Error
+	if len(tAppConfig) > 0 {
+		return true, queryErr, tAppConfig
+	} else {
+		terminal = nil
+		return false, queryErr, nil
+	}
+}
+
+type TAppConfig struct {
+	ConfigId      int64     `gorm:"column:config_id" db:"config_id" json:"config_id" form:"config_id"`
+	AppId         int64     `gorm:"column:app_id" db:"app_id" json:"app_id" form:"app_id"`
+	ConfigStepKey string    `gorm:"column:config_step_key" db:"config_step_key" json:"config_step_key" form:"config_step_key"`
+	ConfigJson    string    `gorm:"column:config_json" db:"config_json" json:"config_json" form:"config_json"`
+	CreTime       time.Time `gorm:"column:cre_time" db:"cre_time" json:"cre_time" form:"cre_time"`
+	UpdTime       time.Time `gorm:"column:upd_time" db:"upd_time" json:"upd_time" form:"upd_time"`
+}
